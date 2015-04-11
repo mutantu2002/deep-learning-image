@@ -11,10 +11,10 @@ public class ShowMnist
 	{
 		//List<Integer> labels = ImageUtils.readMinstLabels("/mnist/train-labels.idx1-ubyte");
 		
-		ResultFrame frame = new ResultFrame(1200, 600);
+		ResultFrame frame = new ResultFrame(1400, 600);
 		//frame.showMnist2(ImageUtils.convertToBW(images), 0);
 		//frame.showImages(ImageUtils.readMnistAsBWImage("/mnist/train-images.idx3-ubyte"), 0, 20);
-		MnistDatabase.loadImagesCrop(20);
+		MnistDatabase.loadGradientImages();
 		frame.showImages(MnistDatabase.trainImages, 0, 30);
 		//frame.showImage(ImageUtils.scaleImage(ImageUtils.gradientImage(MnistDatabase.trainImages.get(0)), 10));
 	}

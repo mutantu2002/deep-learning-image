@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class RunProbabilisticNet 
 {
 	public static final int IMAGE_SIZE = 56;
-	public static final int CLASS_SIZE = 20;
+	public static final int CLASS_SIZE = 5;
 	public static void main(String[] args) throws Exception
 	{
 		ResultFrame frame = new ResultFrame(200, 700);
@@ -26,18 +26,29 @@ public class RunProbabilisticNet
 		ProbabilisticNet net = new ProbabilisticNet(IMAGE_SIZE, IMAGE_SIZE+10*CLASS_SIZE);
 
 
-		for (int s=0;s<30;s++)
+		for (int s=0;s<100;s++)
+		{
+			System.out.println(s);
 			supervisedNonProbabilistic(net, s);
+		}
+			
 //			showSupervised(frame, net, s);
 		//Thread.sleep(2000);
 		
-		Thread netThread = new Thread(new ProbabilisticNetRunnable(net));
+		ProbabilisticNetRunnable probabilisticNetRunnable = new ProbabilisticNetRunnable(net);
+		Thread netThread = new Thread(probabilisticNetRunnable);
 		netThread.start();
-		for (int s=0;s<30;s++)
+		for (int s=0;s<100;s++)
+		{
 			showUnsupervised(frame, net, s);
+			//System.in.read();
+		}
+		probabilisticNetRunnable.alive = false;
+		netThread.join();
 		while(true)
 		{
 			frame.showImage(net.generateSample());
+			System.in.read();
 			System.in.read();
 		}		
 	}
@@ -49,33 +60,38 @@ public class RunProbabilisticNet
 		System.arraycopy(image.getDataOneDimensional(), 0, pixels, 0, IMAGE_SIZE*IMAGE_SIZE);
 		Integer label = MnistDatabase.trainLabels.get(indexImage);
 		Arrays.fill(pixels, IMAGE_SIZE*IMAGE_SIZE+IMAGE_SIZE*CLASS_SIZE*label, IMAGE_SIZE*IMAGE_SIZE+IMAGE_SIZE*CLASS_SIZE*(1+label), (byte)255);
-		for (int noPixel=0;noPixel<pixels.length;noPixel++)
+		for (int noPixel=0;noPixel<IMAGE_SIZE*IMAGE_SIZE;noPixel++)
 		{
+			boolean isOn=true;
 			int pixel = pixels[noPixel];
 			if (pixel<0)pixel+=255;
-			if (pixel<150) continue;
-			if (Math.random()>0.4)continue;
+			if (pixel<150) isOn=false;
+			//if (Math.random()>0.2)continue;
 			ProbabilisticNeuron neuron = net.neurons.get(noPixel);
 			if (neuron == null)
 			{
 				neuron = new ProbabilisticNeuron(noPixel%RunProbabilisticNet.IMAGE_SIZE, noPixel/RunProbabilisticNet.IMAGE_SIZE);
 				net.neurons.put(noPixel, neuron);
 			}
-			for (int noPixel2=0;noPixel2<pixels.length;noPixel2++)
+			for (int noPixel2=IMAGE_SIZE*IMAGE_SIZE;noPixel2<pixels.length;noPixel2++)
 			{
 				int pixel2 = pixels[noPixel2];
 				if (pixel2<0)pixel2+=255;
 				if (pixel2<150)
 				{
 					//if (Math.random()>0.5)continue;
-					if (noPixel2>IMAGE_SIZE*IMAGE_SIZE || noPixel>IMAGE_SIZE*IMAGE_SIZE) continue;
+					//if (noPixel2>IMAGE_SIZE*IMAGE_SIZE || noPixel>IMAGE_SIZE*IMAGE_SIZE) continue;
 					ProbabilisticNeuron neuron2 = net.neurons.get(noPixel2);
 					if (neuron2 == null)
 					{
 						neuron2 = new ProbabilisticNeuron(noPixel2%RunProbabilisticNet.IMAGE_SIZE, noPixel2/RunProbabilisticNet.IMAGE_SIZE);
 						net.neurons.put(noPixel2, neuron2);
 					}
-					neuron2.nonLinks.add(neuron);
+					//neuron2.nonLinks.add(neuron);
+					if (isOn)
+						neuron.nonLinks.add(neuron2);
+					//neuron2.addNonLink(neuron);
+					//neuron.addNonLink(neuron2);
 				}
 				else
 				{
@@ -85,7 +101,11 @@ public class RunProbabilisticNet
 						neuron2 = new ProbabilisticNeuron(noPixel2%RunProbabilisticNet.IMAGE_SIZE, noPixel2/RunProbabilisticNet.IMAGE_SIZE);
 						net.neurons.put(noPixel2, neuron2);
 					}
-					neuron.links.add(neuron2);
+					if (isOn)
+						neuron.links.add(neuron2);
+					else
+						neuron.nonLinks.add(neuron2);
+					//neuron.addLink(neuron2);
 				}
 				
 			}

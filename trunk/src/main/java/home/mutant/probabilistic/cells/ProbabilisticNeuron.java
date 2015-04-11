@@ -15,8 +15,9 @@ public class ProbabilisticNeuron implements Serializable
 	public List<ProbabilisticNeuron> nonLinks = new ArrayList<ProbabilisticNeuron>();
 	public Map<ProbabilisticNeuron, Integer> correlations = new HashMap<ProbabilisticNeuron,Integer>();
 	List<Integer> occurences = new ArrayList<Integer>();
+	public boolean isFiring=false;
 	int totalSamples = 0;
-	public int output;
+	public double output;
 	
 	public ProbabilisticNeuron(int x, int y) 
 	{
@@ -25,12 +26,66 @@ public class ProbabilisticNeuron implements Serializable
 		Y = y;
 	}
 
+	public void addLink(ProbabilisticNeuron neuron)
+	{
+		Integer correlation = correlations.get(neuron);
+		if (correlation == null)
+		{
+			correlation = new Integer(0);
+		}
+		correlation++;
+		correlations.put(neuron, correlation);
+		//System.out.println(correlation);
+	}
+	public void addNonLink(ProbabilisticNeuron neuron)
+	{
+		Integer correlation = correlations.get(neuron);
+		if (correlation == null)
+		{
+			correlation = new Integer(0);
+		}
+		correlation--;
+		correlations.put(neuron, correlation);
+	}
+
+	private double getRadius(ProbabilisticNeuron neuron) 
+	{
+		double radius  = Math.sqrt((X-neuron.X)*(X-neuron.X)+(Y-neuron.Y)*(Y-neuron.Y));
+		return radius;
+	}
+	
+	public void applyCorrelationsToLinks()
+	{
+		for(ProbabilisticNeuron neuron:correlations.keySet())
+		{
+			neuron.output+=correlations.get(neuron)*0.0001;
+			if (neuron.output<0)neuron.output=0;
+			if (neuron.output>255) neuron.output=255;
+		}
+	}
+	
+	public void applyCorrelationsToLink()
+	{
+		int indexStop = (int) (correlations.keySet().size()*Math.random());
+		int index=0;
+		for(ProbabilisticNeuron neuron:correlations.keySet())
+		{
+			if (index==indexStop)
+			{
+				neuron.output+=correlations.get(neuron)*100;
+				if (neuron.output<0)neuron.output=0;
+				if (neuron.output>255) neuron.output=255;
+				break;
+			}
+		}
+	}
+	
 	public ProbabilisticNeuron pickLink()
 	{
 		int size = links.size();
-		if (size>1000000)
+		if (size>100000)
 		{
-			links.remove(0);
+			links.remove(Math.random()*size);
 			size--;
 		}
 		if (size==0) return null;
@@ -45,9 +100,9 @@ public class ProbabilisticNeuron implements Serializable
 	public ProbabilisticNeuron pickNonLink()
 	{
 		int size = nonLinks.size();
-		if (size>1000000)
+		if (size>200000)
 		{
-			nonLinks.remove(0);
+			nonLinks.remove(Math.random()*size);
 			size--;
 		}
 		if (size==0) return null;
