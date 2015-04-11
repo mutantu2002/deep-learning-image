@@ -20,11 +20,11 @@ public class RunProbabilisticNetSolo
 		ProbabilisticNet net = new ProbabilisticNet(IMAGE_SIZE, IMAGE_SIZE);
 
 
-		for (int s=0;s<10;s++)
+		for (int s=0;s<50;s++)
 			supervisedNonProbabilistic(net, s);
 //			showSupervised(frame, net, s);
 		//Thread.sleep(2000);
-		byte[] pixels = ImageUtils.scaleImage(MnistDatabase.trainImages.get(1), IMAGE_SIZE/28.).getDataOneDimensional();
+		byte[] pixels = ImageUtils.scaleImage(MnistDatabase.trainImages.get(4), IMAGE_SIZE/28.).getDataOneDimensional();
 		for (int i = 0; i < pixels.length; i++)
 		{
 			int pixel = pixels[i];
@@ -58,7 +58,7 @@ public class RunProbabilisticNetSolo
 			int pixel = pixels[noPixel];
 			if (pixel<0)pixel+=255;
 			if (pixel<150) continue;
-			if (Math.random()>0.4)continue;
+			//if (Math.random()>0.07)continue;
 			ProbabilisticNeuron neuron = net.neurons.get(noPixel);
 			if (neuron == null)
 			{
@@ -78,7 +78,7 @@ public class RunProbabilisticNetSolo
 						neuron2 = new ProbabilisticNeuron(noPixel2%RunProbabilisticNetSolo.IMAGE_SIZE, noPixel2/RunProbabilisticNetSolo.IMAGE_SIZE);
 						net.neurons.put(noPixel2, neuron2);
 					}
-					neuron.nonLinks.add(neuron2);
+					neuron.addNonLink(neuron2);
 				}
 				else
 				{
@@ -88,7 +88,7 @@ public class RunProbabilisticNetSolo
 						neuron2 = new ProbabilisticNeuron(noPixel2%RunProbabilisticNetSolo.IMAGE_SIZE, noPixel2/RunProbabilisticNetSolo.IMAGE_SIZE);
 						net.neurons.put(noPixel2, neuron2);
 					}
-					neuron.links.add(neuron2);
+					neuron.addLink(neuron2);
 				}
 				
 			}

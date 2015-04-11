@@ -22,7 +22,7 @@ public class OutputRunnableByThread implements Runnable
 		{
 			int indexNeuron = RunProbabilisticNet.IMAGE_SIZE*RunProbabilisticNet.IMAGE_SIZE+(int) (Math.random()*net.X*(net.Y-RunProbabilisticNet.IMAGE_SIZE));
 			ProbabilisticNeuron neuron = net.neurons.get(indexNeuron);
-			if (neuron==null || neuron.output==0) continue;
+			if (neuron==null || neuron.output<200) continue;
 //			System.out.println(neuron.output);
 			indexNeuron = (indexNeuron-RunProbabilisticNet.IMAGE_SIZE*RunProbabilisticNet.IMAGE_SIZE)/(RunProbabilisticNet.IMAGE_SIZE*RunProbabilisticNet.CLASS_SIZE);
 			outputs[indexNeuron]+=1;

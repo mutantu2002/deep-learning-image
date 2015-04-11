@@ -1,14 +1,17 @@
 package home.mutant.deep.utils;
 
 import static org.junit.Assert.*;
+import home.mutant.probabilistic.cells.ProbabilisticNeuron;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
 public class TestMathUtils
 {
-	@Test
+	//@Test
 	public void testMean()
     {
             int[] test = new int[3];
@@ -21,7 +24,7 @@ public class TestMathUtils
             System.out.println(cc[0].length);
     }
        
-    @Test
+    //@Test
     public void testStandardDev()
     {
             int[] test = new int[3];
@@ -31,7 +34,7 @@ public class TestMathUtils
             assertEquals(0.816496580927726, MathUtils.standardDev(test));
     }
     
-    @Test
+    //@Test
     public void testIndexMaxMultiple()
     {
     	double[]t = {-2, 3.4, 15, 20 , 30, -25, 0, 17};
@@ -41,7 +44,7 @@ public class TestMathUtils
     	assertEquals(3, res.get(1));
     	assertEquals(7, res.get(2));
     }
-    @Test
+   // @Test
     public void testCrossEntropy()
     {
     	double[] p =new double[]{0.333,0.333,0.333};
@@ -63,6 +66,30 @@ public class TestMathUtils
     		System.out.println(p[0]*q2[0]+p[1]*q2[1]+p[2]*q2[2]);
     		System.out.println();
     	}
+    }
+    //@Test
+    public void testMapInteger()
+    {
+    	Map<ProbabilisticNeuron, Integer> map = new HashMap<ProbabilisticNeuron, Integer>();
+    	ProbabilisticNeuron neuron = new ProbabilisticNeuron(0, 0);
+    	map.put(neuron, 5);
+    	Integer cc = map.get(neuron);
+    	cc++;
+    	System.out.println(map.get(neuron));
+    }
+    @Test
+    public void testRandomAddingSubstracting()
+    {
+    	double x=0;
+    	for(int i=0;i<1000000;i++)
+    	{
+//    		if (Math.random()<0.5)
+//    			x+=1;
+//    		else
+//    			x-=1;
+    		x+=Math.random()-0.5;
+    	}
+    	System.out.println(x);
     }
 }
 

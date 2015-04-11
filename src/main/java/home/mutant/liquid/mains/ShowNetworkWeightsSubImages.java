@@ -22,7 +22,7 @@ public class ShowNetworkWeightsSubImages
 
 	public static void main(String[] args) throws IOException, InterruptedException
 	{
-		int subImageX=5;
+		int subImageX=7;
 		int subImageStep = 2;
 		
 		SimpleNet net = train(subImageX, subImageStep);

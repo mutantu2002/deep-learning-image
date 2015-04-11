@@ -35,7 +35,7 @@ public class InputImageRunnable implements Runnable
 					neuron = new ProbabilisticNeuron(indexNeuron%RunProbabilisticNet.IMAGE_SIZE, indexNeuron/RunProbabilisticNet.IMAGE_SIZE);
 					net.neurons.put(indexNeuron, neuron);
 				}
-				neuron.output+=60;
+				neuron.output+=255;
 				if (neuron.output>255)
 					neuron.output=255;
 			}

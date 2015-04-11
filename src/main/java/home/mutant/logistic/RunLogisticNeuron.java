@@ -9,7 +9,7 @@ public class RunLogisticNeuron {
 
 	private static final int TRAIN_SAMPLES = 60000;
 	private static final int OUTPUT_SAMPLES = 7000;
-	private static final int NO_NEURONS = 400;
+	private static final int NO_NEURONS = 2000;
 
 	public static void main(String[] args) throws Exception 
 	{
@@ -27,7 +27,7 @@ public class RunLogisticNeuron {
 			net.neurons[(int) (Math.random()*NO_NEURONS)].learn(MnistDatabase.trainImages.get(i).getDataOneDimensional());
 			net.neurons[(int) (Math.random()*NO_NEURONS)].unlearn(MnistDatabase.trainImages.get(i).getDataOneDimensional());
 		}
-		createArffFromFeatures("LevelLogistic", net);
+		//createArffFromFeatures("LevelLogistic", net);
 		for (int i=0;i<NO_NEURONS;i++)
 		{
 			for (int image=0;image<12;image++)
