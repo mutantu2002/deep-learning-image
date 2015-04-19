@@ -114,23 +114,16 @@ public class Image
 		return data2;
 	}
 	
-	public List<Image> divideImage(int newX, int newY)
-	{
-		List<byte[]> dividedBytes = ImageUtils.divideImage(data, newX, newY, imageX, imageY);
-		List<Image> dividedImages = new ArrayList<Image>();
-		for (byte[] bs : dividedBytes) 
-		{
-			Image img = new Image(bs);
-			dividedImages.add(img);
-		}
-		return dividedImages;
-	}
-	
 	public List<byte[]> divideImage(int newX, int newY, int stepX, int stepY)
 	{
 		return ImageUtils.divideImage(data, newX, newY, imageX, imageY, stepX, stepY);
 	}
 	
+	public List<byte[]> divideImage(int newSize, int step)
+	{
+		return ImageUtils.divideImage(data, newSize, newSize, imageX, imageY, step, step);
+	}
+		
 	public void setPixel(int setX, int setY, byte value)
 	{
 		data[setY*imageX+setX] = value;

@@ -148,41 +148,24 @@ public class ResultFrame extends JFrame
 		repaint();
 	}
 	
-	public void showImages(List<Image> images, int index)
-	{
-		showImages(images, index, 50);
-	}
-
-	public void showImages(List<Image> images, int index, int size)
-	{
-		drawingPanel.empty();
-		if (index>size)
-		{
-			index = size;
-		}
-		if (images.size()<size)
-		{
-			size=images.size();
-		}
-		for (int n1=index;n1<size;n1++)
-		{
-			byte[][] image = images.get(n1).getDataTwoDimensional();
-			int imageX = images.get(n1).imageX;
-			int imageY = images.get(n1).imageY;
-			for (int i =0;i<imageX;i++)
-			{
-				for (int j=0;j<imageY;j++)
-				{
-					drawingPanel.setPixel(j+(n1-index)*(imageX+1),i,image[j][i]);
-				}
-			}
-		}
-		repaint();
-	}
-	
 	public void showImages(List<Image> images)
 	{
 		showImages(images, 0);
+	}
+	public void showImages(List<Image> images, int perLine)
+	{
+		final int imageX = images.get(0).imageX+2;
+		final int imageY = images.get(0).imageY+2;
+		if(perLine==0) perLine = width/imageX;
+		int index=0;
+		drawingPanel.empty();
+		for (Image image : images) {
+			int y=index/perLine;
+			int x = index%perLine;
+			putImage(image, x*imageX, y*imageY);
+			index++;
+		}
+		repaint();
 	}
 	
 	public void showBinaryColumn(TwoFullConnectedLayers column)
