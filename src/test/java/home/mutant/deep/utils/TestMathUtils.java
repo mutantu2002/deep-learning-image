@@ -90,6 +90,10 @@ public class TestMathUtils
     		x+=Math.random()-0.5;
     	}
     	System.out.println(x);
+		System.out.println((-1)%30);
+		Integer n=0;
+		n++;
+		System.out.println(n);
     }
 }
 

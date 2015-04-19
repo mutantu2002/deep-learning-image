@@ -1,0 +1,54 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package home.mutant.forward.bayes.gaussian;
+import home.mutant.deep.ui.Image;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author cipi
+ */
+public class ClassifyGBNeuron {
+	List<GBNeuron> neurons = new ArrayList<GBNeuron>();
+	public ClassifyGBNeuron(List<Image> images, List<Integer> labels){
+		int size = images.get(0).getDataOneDimensional().length;
+		for (int i = 0; i < 10; i++) {
+			neurons.add(new GBNeuron(size));
+		}
+		for (int i=0;i<images.size();i++) {
+			int classIndex = labels.get(i);
+			neurons.get(classIndex).trainImage(images.get(i));
+		}
+		for (int i = 0; i < 10; i++) {
+			neurons.get(i).calculateMeanDeviation();
+		}
+	}
+	
+	public double getRate(List<Image> images, List<Integer> labels){
+		int count=0;
+		for (int i=0;i<images.size();i++) {
+			if(getMax(neurons, images.get(i))== labels.get(i)){
+				count++;
+			}
+		}
+		return (count*100.)/images.size();
+	}
+	public int getMax(List<GBNeuron> neurons, Image image)
+	{
+		double max = -1*Double.MAX_VALUE;
+		int indexMax=-1;
+		for (int b = 0; b < 10; b++)
+		{
+			final double output = neurons.get(b).getPosterior(image);
+			if (output>max){
+				max=output;
+				indexMax=b;
+			}
+		}
+		return indexMax;
+	}
+}
