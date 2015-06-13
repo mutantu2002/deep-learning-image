@@ -17,7 +17,7 @@ public class LogisticNeuron
 		for (int i = 0; i < weights.length; i++)
 		{
 			//if (Math.random()>0.9)
-			weights[i] = (float) (Math.random()-0.5)*MAX_SYNAPSE;
+			weights[i] =255;// (float) (Math.random()-0.5)*MAX_SYNAPSE;
 		}
 	}
 	

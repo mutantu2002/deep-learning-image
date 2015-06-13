@@ -9,7 +9,7 @@ public class RunColumnCells {
 	public static void main(String[] args) throws Exception 
 	{
 		ColumnNeuronCell net = new ColumnNeuronCell(28, 28);
-		MnistDatabase.loadGradientImages();
+		MnistDatabase.loadImagesGradient();
 		net.init(MnistDatabase.trainImages.get(0));
 		for (int step=0;step<10;step++)
 			net.step();

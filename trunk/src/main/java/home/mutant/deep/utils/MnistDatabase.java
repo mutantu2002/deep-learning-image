@@ -34,7 +34,14 @@ public class MnistDatabase
 		
 	}
 	
-	public static void loadGradientImages() throws IOException
+	public static void loadImagesScaled(double scale) throws IOException
+	{
+		MnistDatabase.loadImages();
+		replaceImagesWithScaled(trainImages, scale);
+		replaceImagesWithScaled(testImages, scale);
+	}
+	
+	public static void loadImagesGradient() throws IOException
 	{
 		MnistDatabase.loadImages();
 		replaceImagesWithGradient(trainImages);
@@ -47,4 +54,12 @@ public class MnistDatabase
 			images.set(i, ImageUtils.gradientImage(images.get(i)));
 		}
 	}
+	private static void replaceImagesWithScaled(List<Image> images, double scale)
+	{
+		for(int i=0;i<images.size();i++)
+		{
+			images.set(i, ImageUtils.scaleImage(images.get(i), scale));
+		}
+	}
+	
 }

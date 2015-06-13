@@ -1,22 +1,19 @@
 package home.mutant.deep.utils.kmeans;
 
-import home.mutant.liquid.cells.NeuronCell;
-import home.mutant.liquid.cells.NeuronCellGreyDifference;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Kmeans
 {
 	private static final int NO_ITERATIONS = 40;
 
-	public static List<List<Integer>>run(List<NeuronCell> list, int noClusters)
+	public static List<Clusterable> run(List<Clusterable> list, int noClusters)
 	{
 		List<List<Integer>> clusters = new ArrayList<List<Integer>>();
-		List<NeuronCell> centers = new ArrayList<NeuronCell>();
+		List<Clusterable> centers = initializeCenters(list, noClusters);
 		for (int i=0;i<noClusters;i++)
 		{
-			centers.add(new NeuronCellGreyDifference(list.get((int) (Math.random()*list.size()))));
 			clusters.add(new ArrayList<Integer>());
 		}
 		
@@ -25,10 +22,18 @@ public class Kmeans
 			populateClusters(list, clusters, centers);
 			recalculateClustersCenters(list, clusters, centers);
 		}
-		return clusters;
+		return centers;
 	}
 	
-	private static void populateClusters(List<NeuronCell> list,List<List<Integer>> clusters, List<NeuronCell> centers)
+	private static List<Clusterable> initializeCenters(List<Clusterable> list, int noCenters){
+		List<Clusterable> centers = new ArrayList<Clusterable>();
+		for (int i = 0; i < noCenters; i++) {
+			centers.add(list.get((int) (Math.random()*list.size())).copy());
+		}
+		return centers;
+	}
+	
+	private static void populateClusters(List<Clusterable> list,List<List<Integer>> clusters, List<Clusterable> centers)
 	{
 		for(int i=0 ; i<clusters.size(); i++)
 		{
@@ -37,12 +42,12 @@ public class Kmeans
 		
 		for (int i = 0; i<list.size(); i++)
 		{
-			double minDistance = 1000000;
+			double minDistance = Double.MAX_VALUE;
 			int minCluster=-1;
 			for (int j = 0; j<centers.size(); j++)
 			{
-				NeuronCell centre = centers.get(j);
-				double distance = centre.output(list.get(i));
+				Clusterable centre = centers.get(j);
+				double distance = centre.d(list.get(i));
 				if (distance<minDistance)
 				{
 					minDistance = distance;
@@ -53,21 +58,22 @@ public class Kmeans
 		}
 	}
 	
-	private static void recalculateClustersCenters(List<NeuronCell> list,List<List<Integer>> clusters, List<NeuronCell> centers)
+	private static void recalculateClustersCenters(List<Clusterable> list,List<List<Integer>> clusters, List<Clusterable> centers)
 	{
 		for (int j = 0; j<clusters.size(); j++)
 		{
 			List<Integer> cluster = clusters.get(j);
-			NeuronCell center = centers.get(j);
-			center.weights = new double[center.weights.length];
+			Clusterable center = centers.get(j);
+			double[] centerWeights = center.getWeights();
+			Arrays.fill(centerWeights, 0);
 			
-			for(int w=0; w<center.weights.length; w++)
+			for(int w=0; w<centerWeights.length; w++)
 			{
 				for (int i = 0; i<cluster.size(); i++)
 				{
-					center.weights[w]+=list.get(cluster.get(i)).weights[w];
+					centerWeights[w]+=list.get(cluster.get(i)).getWeights()[w];
 				}
-				center.weights[w]/=cluster.size();
+				centerWeights[w]/=cluster.size();
 			}
 		}
 	}

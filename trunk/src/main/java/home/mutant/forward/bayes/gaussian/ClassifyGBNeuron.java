@@ -5,6 +5,8 @@
  */
 package home.mutant.forward.bayes.gaussian;
 import home.mutant.deep.ui.Image;
+import home.mutant.deep.ui.ResultFrame;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,13 @@ public class ClassifyGBNeuron {
 				count++;
 			}
 		}
+		ResultFrame frame = new ResultFrame(600, 600);
+		List<Image> imgs = new ArrayList<Image>();
+		for (int i=0;i<10;i++)
+		{
+			imgs.add(neurons.get(i).generateImage());
+		}
+		frame.showImages(imgs);
 		return (count*100.)/images.size();
 	}
 	public int getMax(List<GBNeuron> neurons, Image image)

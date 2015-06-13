@@ -15,7 +15,7 @@ public class RunProbabilisticNetSolo
 	public static void main(String[] args) throws Exception
 	{
 		ResultFrame frame = new ResultFrame(200, 700);
-		MnistDatabase.loadGradientImages();
+		MnistDatabase.loadImagesGradient();
 		
 		ProbabilisticNet net = new ProbabilisticNet(IMAGE_SIZE, IMAGE_SIZE);
 

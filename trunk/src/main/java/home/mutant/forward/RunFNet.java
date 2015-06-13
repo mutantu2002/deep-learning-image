@@ -11,7 +11,7 @@ public class RunFNet {
 	public static void main(String[] args) throws Exception 
 	{
 		ResultFrame frame = new ResultFrame(100, 600);
-		MnistDatabase.loadGradientImages();
+		MnistDatabase.loadImagesGradient();
 		FNet net = new FNet(Arrays.asList(28, 84, 50, 40));
 		net.layers[0].roundFillNeighbours(net.layers[1], 20, 300);
 		net.layers[1].roundFillNeighbours(net.layers[2], 10, 200);

@@ -9,7 +9,7 @@ public class RunLogisticNeuron {
 
 	private static final int TRAIN_SAMPLES = 60000;
 	private static final int OUTPUT_SAMPLES = 7000;
-	private static final int NO_NEURONS = 2000;
+	private static final int NO_NEURONS = 200;
 
 	public static void main(String[] args) throws Exception 
 	{
