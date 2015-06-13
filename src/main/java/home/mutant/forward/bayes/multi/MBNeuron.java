@@ -23,6 +23,11 @@ public class MBNeuron extends BNeuron{
 		}
 	}
 	
+	public MBNeuron(int size, Set<Integer> indexes) {
+		super(size);
+		this.indexes = indexes;
+	}
+	
 	public void addPositiveByIndex(byte[] pixels){
 		int i=0;
 		for (Integer index : indexes) {
@@ -62,6 +67,6 @@ public class MBNeuron extends BNeuron{
 		double probMinus = pMinus+Math.log(sumNegative/(sumPositive+sumNegative));
 //		probPlus = Math.exp(probPlus+100);
 //		probMinus = Math.exp(probMinus+100);
-		return probPlus;//-probMinus;///(probPlus+probMinus);
+		return probPlus-probMinus;///(probPlus+probMinus);
 	}
 }

@@ -3,7 +3,6 @@ package home.mutant.deep.ui;
 import home.mutant.deep.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Image 
@@ -58,7 +57,6 @@ public class Image
                 offset++;
 			}
 		}
-
 	}
 	
 	public Image(long[] dataBinary, int x, int y)

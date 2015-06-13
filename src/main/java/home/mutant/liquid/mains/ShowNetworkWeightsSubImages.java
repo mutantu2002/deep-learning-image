@@ -4,6 +4,7 @@ import home.mutant.deep.ui.Image;
 import home.mutant.deep.ui.ResultFrame;
 import home.mutant.deep.utils.MnistDatabase;
 import home.mutant.deep.utils.kmeans.Kmeans;
+import home.mutant.deep.utils.kmeans.KmeansNeuronCell;
 import home.mutant.liquid.cells.NeuronCell;
 import home.mutant.liquid.cells.NeuronCellGreyDifference;
 import home.mutant.liquid.cells.NeuronCellGreyIntegrate;
@@ -73,7 +74,7 @@ public class ShowNetworkWeightsSubImages
 			threads.clear();
 		}
 		
-		List<List<Integer>> clusters = Kmeans.run(net.neurons, 100);
+		List<List<Integer>> clusters = KmeansNeuronCell.run(net.neurons, 100);
 		List<NeuronCell> neurons = new ArrayList<NeuronCell>();
 		for (List<Integer> list : clusters)
 		{

@@ -17,7 +17,7 @@ public class TestZoom
 	@Test
 	public void testprintImage() throws Exception
 	{
-		MnistDatabase.loadGradientImages();
+		MnistDatabase.loadImagesGradient();
 		
 		JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new FlowLayout());

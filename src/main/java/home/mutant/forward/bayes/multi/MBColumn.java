@@ -14,18 +14,26 @@ import java.util.List;
  */
 public class MBColumn {
 	public List<MBNeuron> neurons = new ArrayList<MBNeuron>();
+	public int inputSize;
+	public int neuronSize;
 	
 	public MBColumn(int size, int neuronSize, int inputSize) {
+		this.inputSize = inputSize;
+		this.neuronSize = neuronSize;
+		
 		for (int i=0;i<size;i++) {
-			MBNeuron bn = new MBNeuron(neuronSize, inputSize);
-			for (int j=0;j<1;j++)
-			{
-				bn.initRandom();
-			}
-			neurons.add(bn);
+			addMBNeuron();
 		}
 	}
 
+	public void addMBNeuron(){
+		MBNeuron bn = new MBNeuron(neuronSize, inputSize);
+		for (int j=0;j<1;j++)
+		{
+			bn.initRandom();
+		}
+		neurons.add(bn);
+	}
 	void addPositive(byte[] pixels) {
 		for(MBNeuron neuron:neurons){
 			neuron.addPositiveByIndex(pixels);

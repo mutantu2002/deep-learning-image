@@ -273,6 +273,7 @@ public class ResultFrame extends JFrame
 			for (int y=0;y<length;y++)
 			{
 				drawingPanel.setPixel(yOffset+y,xOffset+x,(byte)(neuron.weights[offset++]/scale+128));
+				//drawingPanel.setPixel(yOffset+y,xOffset+x,(byte)(neuron.weights[offset++]));
 			}
 		}
 	}

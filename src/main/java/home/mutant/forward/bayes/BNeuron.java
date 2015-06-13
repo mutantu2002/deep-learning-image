@@ -66,25 +66,25 @@ public class BNeuron
 	public double output(byte[] input)
 	{
 		double pPlus=0;
-		double pMinus=0;
+//		double pMinus=0;
 		for (int i=0;i<input.length;i++)
 		{
 			Correlation corr = correlations.get(i);
 			double pp = corr.positive;
-			double pn = corr.negative;
+//			double pn = corr.negative;
 			if (input[i]==0)
 			{
 				pp=sumPositive-pp;
-				pn=sumNegative-pn;
+//				pn=sumNegative-pn;
 			}
 			pPlus+=Math.log(pp/sumPositive);
-			pMinus+=Math.log(pn/sumNegative);
+//			pMinus+=Math.log(pn/sumNegative);
 		}
-		double probPlus = pPlus+Math.log(sumPositive/(sumPositive+sumNegative));
-		double probMinus = pMinus+Math.log(sumNegative/(sumPositive+sumNegative));
-		probPlus = Math.exp(probPlus+100);
-		probMinus = Math.exp(probMinus+100);
-		return probPlus/(probPlus+probMinus);
+		double probPlus = pPlus;//+Math.log(sumPositive/(sumPositive+sumNegative));
+//		double probMinus = pMinus+Math.log(sumNegative/(sumPositive+sumNegative));
+//		probPlus = Math.exp(probPlus+100);
+//		probMinus = Math.exp(probMinus+100);
+		return probPlus;///(probPlus+probMinus);
 	}
 	public void addPositive(byte[] input, int weight)
 	{
@@ -122,7 +122,7 @@ public class BNeuron
 			Correlation corr = correlations.get(i);
 			double pp = corr.positive;
 			double pn = corr.negative;
-			if (pp/sumPositive>=pn/sumNegative)
+			if (pp/sumPositive>=pn/sumNegative && pp>1)
 			{
 				pixels[i]=(byte)255;
 			}
